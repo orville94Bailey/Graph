@@ -2,11 +2,12 @@
 #define GRAPH_H
 
 #include <vector>
+#include <iostream>
 
-struct node
+struct matrixNode
 {
     bool beenVisited;
-    int id;
+    int data;
 };
 
 class MatrixGraph
@@ -22,9 +23,20 @@ public:
     void removeEdge(int, int);
     void removeVertex(int);
 
+    void printDepthFirst(int);
+    void printBreadthFirst(int);
+
+    bool findVertex(int);
+
+    void printMatrix();
+
 private:
 
-    std::vector< std::vector< node > > vertexMatrix;
+    void traverseDepthFirst(int vertexIndex, bool printFlag);
+    void traverseBreadthFirst(int vertexIndex, bool printFlag, std::vector< int > *visitList);
+
+    std::vector< std::vector< bool > > adjacencyMatrix;
+    std::vector< matrixNode > vertexList;
 };
 
 #endif // GRAPH_H
