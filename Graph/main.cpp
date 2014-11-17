@@ -53,5 +53,15 @@ int main()
         std::cout << dijkstraPath.at(i) << std::endl;
     }
 
+    std::cout << std::endl;
+
+    std::vector<int> primPath = test.findPrimPath(8,2);
+
+    std::cout << "Prim path from " << 8 << " to " << 2 << ":" << std::endl;
+    for(int i = 0; i < primPath.size(); i++)
+    {
+        std::cout << primPath.at(i) << std::endl;
+    }
+
     return 0;
 }

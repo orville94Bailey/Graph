@@ -310,5 +310,174 @@ std::vector<int> MatrixGraph::findDijkstraPath(int startValue, int endValue)
 
 std::vector<int> MatrixGraph::findPrimPath(int startValue, int endValue)
 {
+    int startIndex = -1;
+    int endIndex = -1;
 
+    for(int i = 0; i < vertexList.size(); i++)
+    {
+        if(vertexList.at(i).data == startValue)
+        {
+            startIndex = i;
+        }
+        else if(vertexList.at(i).data == endValue)
+        {
+            endIndex = i;
+        }
+    }
+
+    if(startIndex >= 0 && endIndex >= 0)
+    {
+        for(int i = 0; i < vertexList.size(); i++)
+        {
+            vertexList.at(i).beenVisited = false;
+        }
+
+        std::vector<std::vector<int> > connectedPairs;
+        std::vector<int> pairVector;
+        pairVector.push_back(0);
+
+        unsigned int smallestWeight = -1;
+        int smallestIndex = -1;
+        for(int i = 0; i < adjacencyMatrix.size(); i++)
+        {
+            int checkWeight = adjacencyMatrix.at(0).at(i);
+            if(checkWeight <= smallestWeight && checkWeight > 0)
+            {
+                smallestWeight = checkWeight;
+                smallestIndex = i;
+            }
+        }
+
+        if(smallestIndex == -1)
+        {
+            std::vector<int> path;
+            path.push_back(-1);
+            return path;
+        }
+
+        pairVector.push_back(smallestIndex);
+
+        connectedPairs.push_back(pairVector);
+        vertexList.at(0).beenVisited = true;
+        vertexList.at(smallestIndex).beenVisited = true;
+
+        //Build a minimum weight spanning tree
+        while(true)
+        {
+            smallestWeight = -1;
+            smallestIndex = -1;
+            int smallStartIndex = -1;
+
+            for(int i = 0; i < connectedPairs.size(); i++)
+            {
+                for(int j = 0; j < adjacencyMatrix.size(); j++)
+                {
+                    int checkWeight = adjacencyMatrix.at(connectedPairs.at(i).at(0)).at(j);
+                    if(checkWeight <= smallestWeight && checkWeight > 0 && vertexList.at(j).beenVisited == false)
+                    {
+                        smallestWeight = checkWeight;
+                        smallestIndex = j;
+                        smallStartIndex = connectedPairs.at(i).at(0);
+                    }
+
+                    checkWeight = adjacencyMatrix.at(connectedPairs.at(i).at(1)).at(j);
+                    if(checkWeight <= smallestWeight && checkWeight > 0 && vertexList.at(j).beenVisited == false)
+                    {
+                        smallestWeight = checkWeight;
+                        smallestIndex = j;
+                        smallStartIndex = connectedPairs.at(i).at(1);
+                    }
+                }
+            }
+
+            if(smallestIndex != -1)
+            {
+                std::cout << connectedPairs.size() << std::endl;
+                pairVector.clear();
+                pairVector.push_back(smallStartIndex);
+                pairVector.push_back(smallestIndex);
+
+                connectedPairs.push_back(pairVector);
+                vertexList.at(smallestIndex).beenVisited = true;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        for(int i = 0; i < connectedPairs.size(); i++)
+        {
+            std::cout << connectedPairs.at(i).at(0) << "," << connectedPairs.at(i).at(1) << std::endl;
+        }
+
+        std::vector<int> pathStack;
+        pathStack.push_back(startIndex);
+
+        while(true)
+        {
+            bool foundVertex = false;
+            for(int i = 0; i < connectedPairs.size(); i++)
+            {
+                if(pathStack.at(pathStack.size()-1) == connectedPairs.at(i).at(0))
+                {
+                    if(pathStack.size() > 1)
+                    {
+                        if(connectedPairs.at(i).at(1) != pathStack.at(pathStack.size()-2))
+                        {
+                            pathStack.push_back(connectedPairs.at(i).at(1));
+                            foundVertex = true;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        pathStack.push_back(connectedPairs.at(i).at(1));
+                        foundVertex = true;
+                        break;
+                    }
+                }
+
+                if(pathStack.at(pathStack.size()-1) == connectedPairs.at(i).at(1))
+                {
+                    if(pathStack.size() > 1)
+                    {
+                        if(connectedPairs.at(i).at(0) != pathStack.at(pathStack.size()-2))
+                        {
+                            pathStack.push_back(connectedPairs.at(i).at(0));
+                            foundVertex = true;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        pathStack.push_back(connectedPairs.at(i).at(0));
+                        foundVertex = true;
+                        break;
+                    }
+                }
+            }
+
+            if(!foundVertex)
+            {
+                pathStack.pop_back();
+            }
+
+            if(pathStack.at(pathStack.size()-1) == endIndex)
+            {
+                break;
+            }
+        }
+
+        std::vector<int> path;
+        while(pathStack.size() > 0)
+        {
+            path.insert(path.begin(),vertexList.at(pathStack.at(pathStack.size()-1)).data);
+            pathStack.pop_back();
+        }
+
+        return path;
+    }
 }
+
+
