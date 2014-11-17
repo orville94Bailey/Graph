@@ -221,3 +221,94 @@ void MatrixGraph::printMatrix()
         std::cout << std::endl;
     }
 }
+
+std::vector<int> MatrixGraph::findDijkstraPath(int startValue, int endValue)
+{
+    int startIndex = -1;
+    int endIndex = -1;
+
+    for(int i = 0; i < vertexList.size(); i++)
+    {
+        if(vertexList.at(i).data == startValue)
+        {
+            startIndex = i;
+        }
+        else if(vertexList.at(i).data == endValue)
+        {
+            endIndex = i;
+        }
+    }
+
+    if(startIndex >= 0 && endIndex >= 0)
+    {
+        std::vector<int> prevIndexes;
+        std::vector<int> currentWeights;
+
+        for(int i = 0; i < vertexList.size(); i++)
+        {
+            vertexList.at(i).beenVisited = false;
+            prevIndexes.push_back(-1);
+            currentWeights.push_back(-1);
+        }
+
+        std::vector<int> connectedIndexes;
+        connectedIndexes.push_back(startIndex);
+        vertexList.at(startIndex).beenVisited = true;
+
+        while(true)
+        {
+            unsigned int smallestWeight = -1;
+            int smallestIndex = -1;
+            int smallStartIndex = -1;
+
+            for(int i = 0; i < connectedIndexes.size(); i++)
+            {
+                for(int j = 0; j < adjacencyMatrix.size(); j++)
+                {
+                    int checkWeight = adjacencyMatrix.at(connectedIndexes.at(i)).at(j);
+
+                    if(checkWeight > 0 && checkWeight <= smallestWeight && vertexList.at(j).beenVisited == false)
+                    {
+                        smallestWeight = checkWeight;
+                        smallestIndex = j;
+                        smallStartIndex = connectedIndexes.at(i);
+                    }
+                }
+            }
+
+            if(smallestIndex == -1)
+            {
+                std::vector<int> path;
+                path.push_back(-1);
+
+                return path;
+            }
+
+            prevIndexes.at(smallestIndex) = smallStartIndex;
+            connectedIndexes.push_back(smallestIndex);
+            currentWeights.at(smallestIndex) = currentWeights.at(smallStartIndex) + smallestWeight;
+            vertexList.at(smallestIndex).beenVisited = true;
+
+            if(smallestIndex == endIndex)
+            {
+                std::vector<int> path;
+                path.push_back(vertexList.at(endIndex).data);
+
+                int prevIndex = prevIndexes.at(endIndex);
+                while(prevIndex != startIndex)
+                {
+                    path.insert(path.begin(),vertexList.at(prevIndex).data);
+                    prevIndex = prevIndexes.at(prevIndex);
+                }
+
+                path.insert(path.begin(),vertexList.at(startIndex).data);
+                return path;
+            }
+        }
+    }
+}
+
+std::vector<int> MatrixGraph::findPrimPath(int startValue, int endValue)
+{
+
+}

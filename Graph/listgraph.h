@@ -34,7 +34,11 @@ public:
 
     bool findVertex(int searchData);
 
+    //These methods return a vector containing a sequence of indexes which detail a path from
+    //the vertex containing startValue to the vertex containing endValue
     std::vector<int> findDijkstraPath(int startValue, int endValue);
+    std::vector<int> findPrimPath(int startValue, int endValue);
+    std::vector<int> findKruskalPath(int startValue, int endValue);
 
 private:
 
