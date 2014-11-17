@@ -8,8 +8,12 @@ struct listNode
 {
     int data;
     bool beenVisited;
+};
 
-
+struct listEdge
+{
+    int endIndex;
+    int weight;
 };
 
 class ListGraph
@@ -19,23 +23,25 @@ public:
     ListGraph();
     ~ListGraph();
 
-    void addVertex(int);
-    void addEdge(int, int);
-    void addEdgeDirected(int, int);
-    void removeEdge(int, int);
-    void removeVertex(int);
+    void addVertex(int newData);
+    void addEdge(int firstValue, int secondValue, int weight);
+    void addEdgeDirected(int firstValue, int secondValue, int weight);
+    void removeEdge(int firstValue, int secondValue);
+    void removeVertex(int removeData);
 
-    void printDepthFirst(int);
-    void printBreadthFirst(int);
+    void printDepthFirst(int startIndex);
+    void printBreadthFirst(int startIndex);
 
-    bool findVertex(int);
+    bool findVertex(int searchData);
+
+    std::vector<int> findDijkstraPath(int startValue, int endValue);
 
 private:
 
     void traverseDepthFirst(int vertexIndex, bool printFlag);
     void traverseBreadthFirst(int vertexIndex, bool printFlag, std::vector< int > *visitList);
 
-    std::vector< std::vector<int> > adjacencyList;
+    std::vector< std::vector<listEdge> > adjacencyList;
     std::vector< listNode > vertexList;
 };
 

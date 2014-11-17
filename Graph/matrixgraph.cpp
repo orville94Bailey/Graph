@@ -20,21 +20,21 @@ void MatrixGraph::addVertex(int newData)
 
         vertexList.push_back(newNode);
 
-        std::vector< bool > newRow;
+        std::vector< int > newRow;
 
         for(int i = 0; i < adjacencyMatrix.size(); i++)
         {
-            adjacencyMatrix.at(i).push_back(false);
-            newRow.push_back(false);
+            adjacencyMatrix.at(i).push_back(0);
+            newRow.push_back(0);
         }
 
-        newRow.push_back(false);
+        newRow.push_back(0);
 
         adjacencyMatrix.push_back(newRow);
     }
 }
 
-void MatrixGraph::addEdge(int firstValue, int secondValue)
+void MatrixGraph::addEdge(int firstValue, int secondValue, int weight)
 {
     int firstIndex = -1;
     int secondIndex = -1;
@@ -53,12 +53,12 @@ void MatrixGraph::addEdge(int firstValue, int secondValue)
 
     if(firstIndex >= 0 && secondIndex >= 0)
     {
-        adjacencyMatrix.at(firstIndex).at(secondIndex) = true;
-        adjacencyMatrix.at(secondIndex).at(firstIndex) = true;
+        adjacencyMatrix.at(firstIndex).at(secondIndex) = weight;
+        adjacencyMatrix.at(secondIndex).at(firstIndex) = weight;
     }
 }
 
-void MatrixGraph::addEdgeDirected(int firstValue, int secondValue)
+void MatrixGraph::addEdgeDirected(int firstValue, int secondValue, int weight)
 {
     int firstIndex = -1;
     int secondIndex = -1;
@@ -77,7 +77,7 @@ void MatrixGraph::addEdgeDirected(int firstValue, int secondValue)
 
     if(firstIndex >= 0 && secondIndex >= 0)
     {
-        adjacencyMatrix.at(firstIndex).at(secondIndex) = true;
+        adjacencyMatrix.at(firstIndex).at(secondIndex) = weight;
     }
 }
 
@@ -100,8 +100,8 @@ void MatrixGraph::removeEdge(int firstValue, int secondValue)
 
     if(firstIndex >= 0 && secondIndex >= 0)
     {
-        adjacencyMatrix.at(firstIndex).at(secondIndex) = false;
-        adjacencyMatrix.at(secondIndex).at(firstIndex) = false;
+        adjacencyMatrix.at(firstIndex).at(secondIndex) = 0;
+        adjacencyMatrix.at(secondIndex).at(firstIndex) = 0;
     }
 }
 
@@ -150,7 +150,7 @@ void MatrixGraph::traverseDepthFirst(int vertexIndex, bool printFlag)
 
     for(int i = 0; i < adjacencyMatrix.at(vertexIndex).size(); i++)
     {
-        if(adjacencyMatrix.at(vertexIndex).at(i) == true && vertexList.at(i).beenVisited == false)
+        if(adjacencyMatrix.at(vertexIndex).at(i) >= 1 && vertexList.at(i).beenVisited == false)
         {
             traverseDepthFirst(i,printFlag);
         }
@@ -184,7 +184,7 @@ void MatrixGraph::traverseBreadthFirst(int vertexIndex, bool printFlag, std::vec
 
         for(int i = 0; i < adjacencyMatrix.size(); i++)
         {
-            if(adjacencyMatrix.at(vertexIndex).at(i) == true && vertexList.at(i).beenVisited == false)
+            if(adjacencyMatrix.at(vertexIndex).at(i) >= 0 && vertexList.at(i).beenVisited == false)
             {
                 if(printFlag)
                 {

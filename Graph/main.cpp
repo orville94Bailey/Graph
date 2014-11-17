@@ -5,7 +5,7 @@
 
 int main()
 {
-    ListGraph test;
+    MatrixGraph test;
     test.addVertex(1);
     test.addVertex(2);
     test.addVertex(3);
@@ -18,17 +18,17 @@ int main()
     test.addVertex(10);
     test.addVertex(11);
     test.addVertex(12);
-    test.addEdge(1,2);
-    test.addEdge(1,3);
-    test.addEdge(2,4);
-    test.addEdge(2,5);
-    test.addEdge(3,6);
-    test.addEdge(3,7);
-    test.addEdge(2,8);
-    test.addEdge(3,9);
-    test.addEdge(4,10);
-    test.addEdge(4,11);
-    test.addEdge(4,12);
+    test.addEdge(1,2,1);
+    test.addEdge(1,3,1);
+    test.addEdge(2,4,1);
+    test.addEdge(2,5,1);
+    test.addEdge(3,6,1);
+    test.addEdge(3,7,1);
+    test.addEdge(2,8,1);
+    test.addEdge(3,9,1);
+    test.addEdge(4,10,1);
+    test.addEdge(4,11,1);
+    test.addEdge(4,12,1);
 
     test.printBreadthFirst(0);
 

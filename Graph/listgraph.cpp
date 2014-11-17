@@ -21,13 +21,13 @@ void ListGraph::addVertex(int newData)
 
         vertexList.push_back(newNode);
 
-        std::vector<int> newList;
+        std::vector<listEdge> newList;
 
         adjacencyList.push_back(newList);
     }
 }
 
-void ListGraph::addEdge(int firstValue, int secondValue)
+void ListGraph::addEdge(int firstValue, int secondValue, int weight)
 {
     int firstIndex = -1;
     int secondIndex = -1;
@@ -46,12 +46,16 @@ void ListGraph::addEdge(int firstValue, int secondValue)
 
     if(firstIndex >= 0 && secondIndex >= 0)
     {
-        adjacencyList.at(firstIndex).push_back(secondIndex);
-        adjacencyList.at(secondIndex).push_back(firstIndex);
+        listEdge newEdge;
+        newEdge.weight = weight;
+        newEdge.endIndex = secondIndex;
+        adjacencyList.at(firstIndex).push_back(newEdge);
+        newEdge.endIndex = firstIndex;
+        adjacencyList.at(secondIndex).push_back(newEdge);
     }
 }
 
-void ListGraph::addEdgeDirected(int firstValue, int secondValue)
+void ListGraph::addEdgeDirected(int firstValue, int secondValue, int weight)
 {
     int firstIndex = -1;
     int secondIndex = -1;
@@ -70,7 +74,10 @@ void ListGraph::addEdgeDirected(int firstValue, int secondValue)
 
     if(firstIndex >= 0 && secondIndex >= 0)
     {
-        adjacencyList.at(firstIndex).push_back(secondIndex);
+        listEdge newEdge;
+        newEdge.weight = weight;
+        newEdge.endIndex = secondIndex;
+        adjacencyList.at(firstIndex).push_back(newEdge);
     }
 }
 
@@ -95,7 +102,7 @@ void ListGraph::removeEdge(int firstValue, int secondValue)
     {
         for(int i = 0; i < adjacencyList.at(firstIndex).size(); i++)
         {
-            if(adjacencyList.at(firstIndex).at(i) == secondIndex)
+            if(adjacencyList.at(firstIndex).at(i).endIndex == secondIndex)
             {
                 adjacencyList.at(firstIndex).erase(adjacencyList.at(firstIndex).begin()+i);
             }
@@ -103,7 +110,7 @@ void ListGraph::removeEdge(int firstValue, int secondValue)
 
         for(int i = 0; i < adjacencyList.at(secondIndex).size(); i++)
         {
-            if(adjacencyList.at(secondIndex).at(i) == firstIndex)
+            if(adjacencyList.at(secondIndex).at(i).endIndex == firstIndex)
             {
                 adjacencyList.at(secondIndex).erase(adjacencyList.at(secondIndex).begin()+i);
             }
@@ -131,7 +138,7 @@ void ListGraph::removeVertex(int removeValue)
         {
             for(int j = 0; j < adjacencyList.at(i).size(); j++)
             {
-                if(adjacencyList.at(i).at(j) == removeIndex)
+                if(adjacencyList.at(i).at(j).endIndex == removeIndex)
                 {
                     adjacencyList.at(i).erase(adjacencyList.at(i).begin()+j);
                 }
@@ -161,9 +168,9 @@ void ListGraph::traverseDepthFirst(int vertexIndex, bool printFlag)
 
     for(int i = 0; i < adjacencyList.at(vertexIndex).size(); i++)
     {
-        if(vertexList.at(adjacencyList.at(vertexIndex).at(i)).beenVisited == false)
+        if(vertexList.at(adjacencyList.at(vertexIndex).at(i).endIndex).beenVisited == false)
         {
-            traverseDepthFirst(adjacencyList.at(vertexIndex).at(i),printFlag);
+            traverseDepthFirst(adjacencyList.at(vertexIndex).at(i).endIndex,printFlag);
         }
     }
 }
@@ -195,15 +202,15 @@ void ListGraph::traverseBreadthFirst(int vertexIndex, bool printFlag, std::vecto
 
         for(int i = 0; i < adjacencyList.at(vertexIndex).size(); i++)
         {
-            if(vertexList.at(adjacencyList.at(vertexIndex).at(i)).beenVisited == false)
+            if(vertexList.at(adjacencyList.at(vertexIndex).at(i).endIndex).beenVisited == false)
             {
                 if(printFlag)
                 {
-                    std::cout << vertexList.at(adjacencyList.at(vertexIndex).at(i)).data << std::endl;
+                    std::cout << vertexList.at(adjacencyList.at(vertexIndex).at(i).endIndex).data << std::endl;
                 }
 
-                vertexList.at(adjacencyList.at(vertexIndex).at(i)).beenVisited = true;
-                visitList->push_back(adjacencyList.at(vertexIndex).at(i));
+                vertexList.at(adjacencyList.at(vertexIndex).at(i).endIndex).beenVisited = true;
+                visitList->push_back(adjacencyList.at(vertexIndex).at(i).endIndex);
             }
         }
     }
