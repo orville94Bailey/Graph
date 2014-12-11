@@ -1,28 +1,29 @@
-#ifndef LISTGRAPH_H
-#define LISTGRAPH_H
+#ifndef EDGEGRAPH_H
+#define EDGEGRAPH_H
 
 #include <vector>
 #include <iostream>
 
-struct listNode
+struct vertex
 {
     int data;
     bool beenVisited;
 };
 
-struct listEdge
+struct edge
 {
+    int startIndex;
     int endIndex;
     int weight;
     bool directed;
 };
 
-class ListGraph
+class EdgeGraph
 {
 public:
 
-    ListGraph();
-    ~ListGraph();
+    EdgeGraph();
+    ~EdgeGraph();
 
     void addVertex(int newData);
     void addEdge(int firstValue, int secondValue, int weight);
@@ -30,10 +31,7 @@ public:
     void removeEdge(int firstValue, int secondValue);
     void removeVertex(int removeData);
 
-    void printDepthFirst(int startIndex);
-    void printBreadthFirst(int startIndex);
-
-    bool findVertex(int searchData);
+    int findVertex(int searchData);
 
     //These methods return a vector containing a sequence of indexes which detail a path from
     //the vertex containing startValue to the vertex containing endValue
@@ -43,11 +41,9 @@ public:
 
 private:
 
-    void traverseDepthFirst(int vertexIndex, bool printFlag);
-    void traverseBreadthFirst(int vertexIndex, bool printFlag, std::vector< int > *visitList);
-
-    std::vector< std::vector<listEdge> > adjacencyList;
-    std::vector< listNode > vertexList;
+    std::vector<edge> edges;
+    std::vector<vertex> vertices;
 };
 
-#endif // LISTGRAPH_H
+#endif // EDGEGRAPH_H
+

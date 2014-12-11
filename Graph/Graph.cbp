@@ -31,6 +31,8 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="edgegraph.cpp" />
+		<Unit filename="edgegraph.h" />
 		<Unit filename="listgraph.cpp" />
 		<Unit filename="listgraph.h" />
 		<Unit filename="main.cpp" />

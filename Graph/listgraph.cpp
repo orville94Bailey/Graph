@@ -48,6 +48,7 @@ void ListGraph::addEdge(int firstValue, int secondValue, int weight)
     {
         listEdge newEdge;
         newEdge.weight = weight;
+        newEdge.directed = false;
         newEdge.endIndex = secondIndex;
         adjacencyList.at(firstIndex).push_back(newEdge);
         newEdge.endIndex = firstIndex;
@@ -77,6 +78,7 @@ void ListGraph::addEdgeDirected(int firstValue, int secondValue, int weight)
         listEdge newEdge;
         newEdge.weight = weight;
         newEdge.endIndex = secondIndex;
+        newEdge.directed = true;
         adjacencyList.at(firstIndex).push_back(newEdge);
     }
 }
@@ -227,4 +229,9 @@ bool ListGraph::findVertex(int searchData)
     }
 
     return false;
+}
+
+std::vector<int> findKruskalPath(int startValue, int endValue)
+{
+
 }

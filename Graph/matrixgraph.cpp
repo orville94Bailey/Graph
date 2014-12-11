@@ -411,6 +411,7 @@ std::vector<int> MatrixGraph::findPrimPath(int startValue, int endValue)
             std::cout << connectedPairs.at(i).at(0) << "," << connectedPairs.at(i).at(1) << std::endl;
         }
 
+        //Find the path from start to end
         std::vector<int> pathStack;
         pathStack.push_back(startIndex);
 
