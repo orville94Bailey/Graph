@@ -21,29 +21,3 @@
 	<vector>
 	<iostream>
 
-1424798059 source:c:\users\jeremy\documents\github\graph\graph\edgegraph.cpp
-	"edgegraph.h"
-
-1424798059 c:\users\jeremy\documents\github\graph\graph\edgegraph.h
-	<vector>
-	<iostream>
-
-1424798059 source:c:\users\jeremy\documents\github\graph\graph\listgraph.cpp
-	"listgraph.h"
-
-1424798059 c:\users\jeremy\documents\github\graph\graph\listgraph.h
-	<vector>
-	<iostream>
-
-1424798059 source:c:\users\jeremy\documents\github\graph\graph\main.cpp
-	"matrixgraph.h"
-	"listgraph.h"
-	<iostream>
-	<string>
-	<ctime>
-	<cstdlib>
-
-1424826381 c:\users\jeremy\documents\github\graph\graph\matrixgraph.h
-	<vector>
-	<iostream>
-

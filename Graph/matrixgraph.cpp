@@ -2,7 +2,7 @@
 
 MatrixGraph::MatrixGraph()
 {
-    currentNode.data=0;
+
 }
 
 MatrixGraph::~MatrixGraph()
@@ -481,14 +481,4 @@ std::vector<int> MatrixGraph::findPrimPath(int startValue, int endValue)
     }
 }
 
-//added by orville94bailey in order to construct a DFA checker
 
-void MatrixGraph::transverseInput(matrixNode transversal_start_vertex, char input)
-{
-
-}
-
-int MatrixGraph::getCurrentState()
-{
-    return currentNode.data;
-}
