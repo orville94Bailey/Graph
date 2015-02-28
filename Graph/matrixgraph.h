@@ -36,6 +36,12 @@ public:
     std::vector<int> findPrimPath(int startValue, int endValue);
     std::vector<int> findKruskalPath(int startValue, int endValue);
 
+    //added by orville94bailey in order to construct a DFA checker
+    matrixNode currentNode;
+    void transverseInput(matrixNode, char);
+    int getCurrentState();
+    std::vector<int> finalStates;
+
 private:
 
     void traverseDepthFirst(int vertexIndex, bool printFlag);
