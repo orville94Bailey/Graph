@@ -38,8 +38,10 @@ public:
 
     //added by orville94bailey in order to construct a DFA checker
     matrixNode currentNode;
-    void transverseInput(matrixNode, char);
+    bool transverseInput(char);
     int getCurrentState();
+    int vertexToIndex(int searchData);
+    matrixNode indexToVertex(int vertexData);
     std::vector<int> finalStates;
 
 private:

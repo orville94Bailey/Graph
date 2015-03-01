@@ -483,12 +483,50 @@ std::vector<int> MatrixGraph::findPrimPath(int startValue, int endValue)
 
 //added by orville94bailey in order to construct a DFA checker
 
-void MatrixGraph::transverseInput(matrixNode transversal_start_vertex, char input)
+bool MatrixGraph::transverseInput(char input)
 {
+    ////////goes from current node across the edge with the input value
+    //find if edge exists...done
 
+    //vertex to index...done
+    int index_of_current_node;
+    index_of_current_node = vertexToIndex(currentNode.data);
+
+    //look through vector at index to see if there is the input char...done
+    for(int i =0; i<adjacencyMatrix.at(index_of_current_node).size(); i++)
+    {
+        if(adjacencyMatrix.at(index_of_current_node).at(i)==input)
+        {
+            //input matches, transverse here
+            //go to node at end of edge...done
+            matrixNode tempNode;
+            tempNode = indexToVertex(i);
+            //set the current node...done
+            currentNode = tempNode;
+            return true;
+        }
+    }
+    return false;
 }
 
 int MatrixGraph::getCurrentState()
 {
     return currentNode.data;
+}
+
+int MatrixGraph::vertexToIndex(int searchData)
+{
+    for(int i = 0; i < vertexList.size(); i++)
+    {
+        if(vertexList.at(i).data == searchData)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+matrixNode MatrixGraph::indexToVertex(int vertexData)
+{
+    return vertexList.at(vertexData);
 }

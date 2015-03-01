@@ -4,9 +4,80 @@
 #include <string>
 #include <ctime>
 #include <cstdlib>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
 
 int main()
 {
+    std::ifstream read_file;
+    std::string file_name;
+
+    std::vector<int> final_states;
+
+    std::cout<<"Enter the name of the file to examine: ";
+    std::cin>>file_name;
+
+    MatrixGraph DFA;
+
+    read_file.open(file_name.c_str());
+
+    if(read_file.is_open())
+    {
+        int temp;
+        std::string current_line;
+
+        //puts the final states into the final_states vector
+        getline(read_file, current_line);
+        //this for loop was found at "https://answers.yahoo.com/question/index?qid=20110614175714AAQb661"
+        for(std::istringstream iss(current_line); iss>>temp; )
+        {
+            final_states.push_back(temp);
+        }
+        //end of cited content
+
+        int start_vertex, end_vertex;
+        char input;
+        //loop until no more data from here
+        while(read_file.good())
+        {
+            //get first number...done
+            //get input...done
+            //get second number...done
+            read_file>>start_vertex>>input>>end_vertex;
+            //check if vertex 1 exists...done
+            if(!DFA.findVertex(start_vertex))
+            {
+                //create if DNE...done
+                DFA.addVertex(start_vertex);
+            }
+            //check if vertex 2 exists...done
+            if(!DFA.findVertex(end_vertex))
+            {
+                //create if DNE...done
+                DFA.addVertex(end_vertex);
+            }
+            //create directed weighted edge between them...done
+            DFA.addEdgeDirected(start_vertex,end_vertex,input);
+        }
+    }
+    else
+    {
+        std::cout<<"File name not found."<<std::endl;
+    }
+    //get user input...done
+    std::string user_input;
+    std::cout<<"Enter the string to check: ";
+    std::cin>>user_input;
+
+    //strip user_input of newline...done
+    //newline stripping was found here: "http://stackoverflow.com/questions/1488775/c-remove-new-line-from-multiline-string"
+    user_input.erase(std::remove(user_input.begin(), user_input.end(), '\n'), user_input.end());
+
+
+
+
+    /*
     srand(time(NULL));
 
     MatrixGraph test;
@@ -64,4 +135,5 @@ int main()
     }
 
     return 0;
+    */
 }

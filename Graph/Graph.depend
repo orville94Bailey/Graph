@@ -35,15 +35,21 @@
 	<vector>
 	<iostream>
 
-1424798059 source:c:\users\jeremy\documents\github\graph\graph\main.cpp
+1425239721 source:c:\users\jeremy\documents\github\graph\graph\main.cpp
 	"matrixgraph.h"
 	"listgraph.h"
 	<iostream>
 	<string>
 	<ctime>
 	<cstdlib>
+	<fstream>
+	<sstream>
+	<algorithm>
 
-1424826381 c:\users\jeremy\documents\github\graph\graph\matrixgraph.h
+1425161293 c:\users\jeremy\documents\github\graph\graph\matrixgraph.h
 	<vector>
 	<iostream>
+
+1425161293 source:c:\users\jeremy\documents\github\graph\graph\matrixgraph.cpp
+	"matrixgraph.h"
 
