@@ -13,8 +13,6 @@ int main()
     std::ifstream read_file;
     std::string file_name;
 
-    std::vector<int> final_states;
-
     std::cout<<"Enter the name of the file to examine: ";
     std::cin>>file_name;
 
@@ -32,7 +30,7 @@ int main()
         //this for loop was found at "https://answers.yahoo.com/question/index?qid=20110614175714AAQb661"
         for(std::istringstream iss(current_line); iss>>temp; )
         {
-            final_states.push_back(temp);
+            DFA.finalStates.push_back(temp);
         }
         //end of cited content
 
@@ -64,15 +62,56 @@ int main()
     else
     {
         std::cout<<"File name not found."<<std::endl;
+        exit(2);
     }
     //get user input...done
+    //DFA.printMatrix();  //debugging print
     std::string user_input;
-    std::cout<<"Enter the string to check: ";
-    std::cin>>user_input;
+    bool invalid_string;
+    invalid_string = false;
+    bool quit_flag;
+    quit_flag = false;
 
-    //strip user_input of newline...done
-    //newline stripping was found here: "http://stackoverflow.com/questions/1488775/c-remove-new-line-from-multiline-string"
-    user_input.erase(std::remove(user_input.begin(), user_input.end(), '\n'), user_input.end());
+    do
+    {
+
+        std::cout<<"Enter the string to check: ";
+        std::cin>>user_input;
+
+        //strip user_input of newline...done
+        //newline stripping was found here: "http://stackoverflow.com/questions/1488775/c-remove-new-line-from-multiline-string"
+        user_input.erase(std::remove(user_input.begin(), user_input.end(), '\n'), user_input.end());
+
+        //BEGIN STRING CHECKING
+        if(user_input=="quit")
+        {
+            std::cout<<"Rerun the checker to check another DFA"<<std::endl;
+            break;
+        }
+        DFA.resetToBegining();
+        invalid_string = false;
+        for(int i = 0; i<user_input.size(); i++)
+        {
+            //std::cout<<"Transversed: "<<i<<std::endl;
+            if(!DFA.transverseInput(user_input[i]))
+            {
+                std::cout<<"Failded transversal on iteration "<<i + 1<<std::endl;
+                invalid_string = true;
+                break;
+            }
+        }
+        if(!invalid_string)
+        {
+            if(DFA.currentIsFinal())
+            {
+                std::cout<<"The string \""+ user_input +"\" is valid"<<std::endl;
+            }
+            else
+            {
+                std::cout<<"The string \""+ user_input +"\" is invalid"<<std::endl;
+            }
+        }
+    }while(!quit_flag);
 
 
 

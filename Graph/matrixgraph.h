@@ -42,6 +42,8 @@ public:
     int getCurrentState();
     int vertexToIndex(int searchData);
     matrixNode indexToVertex(int vertexData);
+    void resetToBegining();
+    bool currentIsFinal();
     std::vector<int> finalStates;
 
 private:
@@ -49,7 +51,7 @@ private:
     void traverseDepthFirst(int vertexIndex, bool printFlag);
     void traverseBreadthFirst(int vertexIndex, bool printFlag, std::vector< int > *visitList);
 
-    std::vector< std::vector< int > > adjacencyMatrix;
+    std::vector< std::vector< std::vector<int> > > adjacencyMatrix;
     std::vector< matrixNode > vertexList;
 };
 

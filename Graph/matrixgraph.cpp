@@ -17,18 +17,18 @@ void MatrixGraph::addVertex(int newData)
         matrixNode newNode;
         newNode.data = newData;
         newNode.beenVisited = false;
-
+        std::vector<int> empty_vector;
         vertexList.push_back(newNode);
 
-        std::vector< int > newRow;
+        std::vector< std::vector<int> > newRow;
 
         for(int i = 0; i < adjacencyMatrix.size(); i++)
         {
-            adjacencyMatrix.at(i).push_back(0);
-            newRow.push_back(0);
+            adjacencyMatrix.at(i).push_back(empty_vector);
+            newRow.push_back(empty_vector);
         }
 
-        newRow.push_back(0);
+        newRow.push_back(empty_vector);
 
         adjacencyMatrix.push_back(newRow);
     }
@@ -45,7 +45,7 @@ void MatrixGraph::addEdge(int firstValue, int secondValue, int weight)
         {
             firstIndex = i;
         }
-        else if(vertexList.at(i).data == secondValue)
+        if(vertexList.at(i).data == secondValue)
         {
             secondIndex = i;
         }
@@ -53,8 +53,8 @@ void MatrixGraph::addEdge(int firstValue, int secondValue, int weight)
 
     if(firstIndex >= 0 && secondIndex >= 0)
     {
-        adjacencyMatrix.at(firstIndex).at(secondIndex) = weight;
-        adjacencyMatrix.at(secondIndex).at(firstIndex) = weight;
+        adjacencyMatrix.at(firstIndex).at(secondIndex).push_back(weight);
+        adjacencyMatrix.at(secondIndex).at(firstIndex).push_back(weight);
     }
 }
 
@@ -69,7 +69,7 @@ void MatrixGraph::addEdgeDirected(int firstValue, int secondValue, int weight)
         {
             firstIndex = i;
         }
-        else if(vertexList.at(i).data == secondValue)
+        if(vertexList.at(i).data == secondValue)
         {
             secondIndex = i;
         }
@@ -77,7 +77,7 @@ void MatrixGraph::addEdgeDirected(int firstValue, int secondValue, int weight)
 
     if(firstIndex >= 0 && secondIndex >= 0)
     {
-        adjacencyMatrix.at(firstIndex).at(secondIndex) = weight;
+        adjacencyMatrix.at(firstIndex).at(secondIndex).push_back(weight);
     }
 }
 
@@ -100,8 +100,8 @@ void MatrixGraph::removeEdge(int firstValue, int secondValue)
 
     if(firstIndex >= 0 && secondIndex >= 0)
     {
-        adjacencyMatrix.at(firstIndex).at(secondIndex) = 0;
-        adjacencyMatrix.at(secondIndex).at(firstIndex) = 0;
+        adjacencyMatrix.at(firstIndex).at(secondIndex).clear();
+        adjacencyMatrix.at(secondIndex).at(firstIndex).clear();
     }
 }
 
@@ -129,6 +129,7 @@ void MatrixGraph::removeVertex(int removeData)
     }
 }
 
+/*
 void MatrixGraph::printDepthFirst(int startIndex)
 {
     for(int i = 0; i < vertexList.size(); i++)
@@ -138,7 +139,9 @@ void MatrixGraph::printDepthFirst(int startIndex)
 
     traverseDepthFirst(startIndex,true);
 }
+*/
 
+/*
 void MatrixGraph::traverseDepthFirst(int vertexIndex, bool printFlag)
 {
     if(printFlag)
@@ -156,7 +159,9 @@ void MatrixGraph::traverseDepthFirst(int vertexIndex, bool printFlag)
         }
     }
 }
+*/
 
+/*
 void MatrixGraph::printBreadthFirst(int startIndex)
 {
     for(int i = 0; i < vertexList.size(); i++)
@@ -166,7 +171,9 @@ void MatrixGraph::printBreadthFirst(int startIndex)
 
     traverseBreadthFirst(startIndex,true,new std::vector<int>());
 }
+*/
 
+/*
 void MatrixGraph::traverseBreadthFirst(int vertexIndex, bool printFlag, std::vector<int> *visitList)
 {
     if(printFlag)
@@ -197,6 +204,7 @@ void MatrixGraph::traverseBreadthFirst(int vertexIndex, bool printFlag, std::vec
         }
     }
 }
+*/
 
 bool MatrixGraph::findVertex(int searchData)
 {
@@ -216,12 +224,17 @@ void MatrixGraph::printMatrix()
     {
         for(int j = 0; j < adjacencyMatrix.at(i).size(); j++)
         {
-            std::cout << adjacencyMatrix.at(i).at(j) << " ";
+            for(int k = 0; k<adjacencyMatrix.at(i).at(j).size();k++)
+            {
+                std::cout<<i<<","<<j<<":";
+                std::cout << adjacencyMatrix.at(i).at(j).at(k) << " ";
+            }
         }
         std::cout << std::endl;
     }
 }
 
+/*
 std::vector<int> MatrixGraph::findDijkstraPath(int startValue, int endValue)
 {
     int startIndex = -1;
@@ -307,7 +320,9 @@ std::vector<int> MatrixGraph::findDijkstraPath(int startValue, int endValue)
         }
     }
 }
+*/
 
+/*
 std::vector<int> MatrixGraph::findPrimPath(int startValue, int endValue)
 {
     int startIndex = -1;
@@ -480,6 +495,7 @@ std::vector<int> MatrixGraph::findPrimPath(int startValue, int endValue)
         return path;
     }
 }
+*/
 
 //added by orville94bailey in order to construct a DFA checker
 
@@ -495,15 +511,18 @@ bool MatrixGraph::transverseInput(char input)
     //look through vector at index to see if there is the input char...done
     for(int i =0; i<adjacencyMatrix.at(index_of_current_node).size(); i++)
     {
-        if(adjacencyMatrix.at(index_of_current_node).at(i)==input)
+        for(int j = 0; j<adjacencyMatrix.at(index_of_current_node).at(i).size(); j++)
         {
-            //input matches, transverse here
-            //go to node at end of edge...done
-            matrixNode tempNode;
-            tempNode = indexToVertex(i);
-            //set the current node...done
-            currentNode = tempNode;
-            return true;
+            if(adjacencyMatrix.at(index_of_current_node).at(i).at(j)==input)
+            {
+                //input matches, transverse here
+                //go to node at end of edge...done
+                matrixNode tempNode;
+                tempNode = indexToVertex(i);
+                //set the current node...done
+                currentNode = tempNode;
+                return true;
+            }
         }
     }
     return false;
@@ -524,6 +543,23 @@ int MatrixGraph::vertexToIndex(int searchData)
         }
     }
     return -1;
+}
+
+void MatrixGraph::resetToBegining()
+{
+    currentNode = indexToVertex(vertexToIndex(0));
+}
+
+bool MatrixGraph::currentIsFinal()
+{
+    for(int i = 0; i<finalStates.size(); i++)
+    {
+        if(finalStates.at(i)==currentNode.data)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 matrixNode MatrixGraph::indexToVertex(int vertexData)
